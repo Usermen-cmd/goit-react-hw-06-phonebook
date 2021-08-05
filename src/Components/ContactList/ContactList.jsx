@@ -3,21 +3,23 @@ import css from './ContactList.module.css';
 
 import { connect } from 'react-redux';
 import { deleteContact } from 'redux/actions';
+import { getFiltredContacts } from 'utils/getFiltredContacts';
 
-const ContactList = ({ contacts, deleteContact }) => {
-  function onDeleteBtnClick(event, id) {
+const ContactList = ({ filteredContacts, contacts, deleteContact }) => {
+  function onDeleteBtnClick(id) {
     deleteContact(id);
   }
+
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
       <ul className={css.list}>
-        {contacts.map(el => {
+        {filteredContacts.map(el => {
           return (
             <li className={css.listItem} key={el.id}>
               <span>{el.name}</span>
               <span>{el.phone}</span>
-              <button type="button" onClick={e => onDeleteBtnClick(e, el.id)}>
+              <button type="button" onClick={e => onDeleteBtnClick(el.id)}>
                 delete
               </button>
             </li>
@@ -31,6 +33,7 @@ const ContactList = ({ contacts, deleteContact }) => {
 const mapStateToProps = state => {
   return {
     contacts: state.contacts,
+    filteredContacts: getFiltredContacts(state),
   };
 };
 

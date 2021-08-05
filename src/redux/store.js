@@ -22,7 +22,10 @@ const reduser = (state = initState, action) => {
         }),
       };
     case CHANGE_FILTEER:
-      return;
+      return {
+        ...state,
+        filter: action.payload,
+      };
     default:
       return state;
   }
