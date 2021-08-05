@@ -3,6 +3,7 @@ import css from './AddContactForm.module.css';
 
 import { addContact } from 'redux/actions';
 import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddContactForm = ({ addContact }) => {
   function onSubmit(event) {
@@ -12,6 +13,7 @@ const AddContactForm = ({ addContact }) => {
     const phone = event.target.phone.value;
 
     addContact({
+      id: uuidv4(),
       name,
       phone,
     });

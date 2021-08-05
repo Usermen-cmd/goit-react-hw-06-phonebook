@@ -15,7 +15,12 @@ const reduser = (state = initState, action) => {
         contacts: [...state.contacts, action.payload],
       };
     case DELETE_CONTACT:
-      return;
+      return {
+        ...state,
+        contacts: state.contacts.filter(el => {
+          return el.id !== action.payload;
+        }),
+      };
     case CHANGE_FILTEER:
       return;
     default:
