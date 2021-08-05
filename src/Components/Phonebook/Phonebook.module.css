@@ -1,0 +1,6 @@
+.container {
+  padding: 30px 10px;
+  outline: 1px solid tomato;
+  width: 500px;
+  margin: 0 auto;
+}

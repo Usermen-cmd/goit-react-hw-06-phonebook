@@ -1,0 +1,13 @@
+.header {
+  text-align: center;
+}
+.form {
+  padding: 20px 0;
+  text-align: center;
+}
+.input {
+  margin-right: 20px;
+}
+.button {
+  border-radius: 5px;
+}
