@@ -1,6 +1,6 @@
 //Styles
 import css from './ContactList.module.css';
-
+//Utils
 import { connect } from 'react-redux';
 import { deleteContact } from 'redux/actions';
 import { getFiltredContacts } from 'utils/getFiltredContacts';

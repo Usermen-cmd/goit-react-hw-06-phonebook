@@ -1,6 +1,6 @@
 //Styles
 import css from './FindForm.module.css';
-
+//Utils
 import { connect } from 'react-redux';
 import { changeFilter } from 'redux/actions';
 
