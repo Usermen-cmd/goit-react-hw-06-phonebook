@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 import { deleteContact } from 'redux/actions';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
 
-const ContactList = ({ filteredContacts, contacts, deleteContact }) => {
-  function onDeleteBtnClick(id) {
-    deleteContact(id);
-  }
-
+const ContactList = ({ filteredContacts, deleteContact }) => {
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
@@ -19,7 +15,7 @@ const ContactList = ({ filteredContacts, contacts, deleteContact }) => {
             <li className={css.listItem} key={el.id}>
               <span>{el.name}</span>
               <span>{el.phone}</span>
-              <button type="button" onClick={e => onDeleteBtnClick(el.id)}>
+              <button type="button" onClick={() => deleteContact(el.id)}>
                 delete
               </button>
             </li>
