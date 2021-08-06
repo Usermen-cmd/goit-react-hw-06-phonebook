@@ -1,10 +1,23 @@
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { ADD_CONTACT, DELETE_CONTACT, CHANGE_FILTEER } from './action-types';
 
 const initState = {
-  contacts: [],
+  contacts: [
+    { id: 'id-1', name: 'Rosie Simpson', phone: '459-12-56' },
+    { id: 'id-2', name: 'Hermione Kline', phone: '443-89-12' },
+    { id: 'id-3', name: 'Eden Clements', phone: '645-17-79' },
+    { id: 'id-4', name: 'Annie Copeland', phone: '227-91-26' },
+  ],
   filter: '',
+};
+
+const persistConfig = {
+  key: 'contacts',
+  storage,
+  whiteList: ['contacts'],
 };
 
 const reduser = (state = initState, action) => {
@@ -31,6 +44,8 @@ const reduser = (state = initState, action) => {
   }
 };
 
-const store = createStore(reduser, composeWithDevTools());
+const persistedReducer = persistReducer(persistConfig, reduser);
+const store = createStore(persistedReducer, composeWithDevTools());
+const persistor = persistStore(store);
 
-export default store;
+export { store, persistor };
