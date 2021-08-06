@@ -14,7 +14,7 @@ const ContactList = ({ filteredContacts, deleteContact }) => {
           return (
             <li className={css.listItem} key={el.id}>
               <span>{el.name}</span>
-              <span>{el.phone}</span>
+              <span>{el.tel}</span>
               <button type="button" onClick={() => deleteContact(el.id)}>
                 delete
               </button>
@@ -28,7 +28,6 @@ const ContactList = ({ filteredContacts, deleteContact }) => {
 
 const mapStateToProps = state => {
   return {
-    contacts: state.contacts,
     filteredContacts: getFiltredContacts(state),
   };
 };

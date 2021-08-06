@@ -4,6 +4,7 @@ import ContactList from 'Components/ContactList/ContactList';
 import FindForm from 'Components/FindForm/FindForm';
 //Styles
 import css from './Phonebook.module.css';
+import { Toaster } from 'react-hot-toast';
 
 const Phonebook = () => {
   return (
@@ -11,6 +12,7 @@ const Phonebook = () => {
       <AddContactForm />
       <FindForm />
       <ContactList />
+      <Toaster position="top-right" />
     </div>
   );
 };

@@ -31,6 +31,7 @@
     "redux": "^4.1.1",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
+    "throttle-debounce": "^3.0.1",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.9",
     "yup-phone": "^1.2.19"

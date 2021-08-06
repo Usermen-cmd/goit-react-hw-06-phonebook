@@ -1,23 +1,32 @@
 //Styles
 import css from './AddContactForm.module.css';
-
+//Components
+import { Formik, Form, Field } from 'formik';
+//Utils
 import { addContact } from 'redux/actions';
 import { connect } from 'react-redux';
+import { toast } from 'react-hot-toast';
 import { nanoid } from 'nanoid';
-import * as Yup from 'yup';
-import 'yup-phone';
-import { toast, Toaster } from 'react-hot-toast';
+import { debounce } from 'throttle-debounce';
+import { isUniqName } from 'utils/isUniqName';
+import { schema } from 'utils/validtionSchema';
 
-import { Formik, Form, Field } from 'formik';
+const AddContactForm = ({ addContact }) => {
+  const onError = debounce(300, error => {
+    toast.error(error);
+  });
 
-const schema = Yup.object().shape({
-  name: Yup.string().min(2, '').max(20, '').required(''),
-  tel: Yup.string().phone('', false, '').required(),
-});
-
-const AddContactForm = ({ addContact, constantsNames }) => {
   function onSubmit(event, actions) {
-    console.log('qwe');
+    if (isUniqName(event.name)) {
+      toast.error('Такой контак уже есть');
+      return;
+    }
+    addContact({
+      id: nanoid(),
+      ...event,
+    });
+    toast.success('Добавлено');
+    actions.resetForm();
     return;
   }
 
@@ -27,35 +36,43 @@ const AddContactForm = ({ addContact, constantsNames }) => {
       <Formik
         initialValues={{
           name: '',
-          phone: '',
+          tel: '',
         }}
-        onSubmit={onSubmit}
         validationSchema={schema}
+        onSubmit={onSubmit}
       >
         {({ errors, touched }) => (
-          <div errors={errors} touched={touched}>
-            <Form>
-              <label htmlFor="name">Name</label>
-              <Field id="name" name="name" placeholder="Enter name" />
+          <Form className={css.form}>
+            <label className={css.label} htmlFor="name">
+              Name
+            </label>
+            <Field
+              className={css.input}
+              id="name"
+              name="name"
+              placeholder="Enter name"
+            />
+            {touched.name && errors.name && onError(errors.name)}
 
-              {touched.name && errors.name && <p>{errors.name}</p>}
-              <label htmlFor="phone">Phone</label>
-              <Field id="phone" name="phone" placeholder="Enter phone number" />
+            <label className={css.label} htmlFor="tel">
+              Phone
+            </label>
+            <Field
+              className={css.input}
+              id="tel"
+              name="tel"
+              placeholder="Enter phone number"
+            />
+            {touched.tel && errors.tel && onError(errors.tel)}
 
-              {touched.tel && errors.tel && <p>{errors.tel}</p>}
-              <button type="submit">add</button>
-            </Form>
-          </div>
+            <button className={css.button} type="submit">
+              add
+            </button>
+          </Form>
         )}
       </Formik>
     </>
   );
-};
-
-const mapStateToProps = state => {
-  return {
-    constantsNames: state.contacts.map(el => el.name),
-  };
 };
 
 const mapDispathToProps = dispatch => {
@@ -64,4 +81,4 @@ const mapDispathToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispathToProps)(AddContactForm);
+export default connect(null, mapDispathToProps)(AddContactForm);
