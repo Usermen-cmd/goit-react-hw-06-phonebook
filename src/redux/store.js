@@ -38,17 +38,16 @@ const filterReducer = createReducer(initState.filter, {
   [changeFilter]: (_, action) => action.payload,
 });
 
-const persistConfig = {
-  key: 'contacts',
-  storage,
-  whiteList: ['contacts'],
-};
-
 const rootReducer = combineReducers({
   contacts: contactsReduser,
   filter: filterReducer,
 });
 
+const persistConfig = {
+  key: 'contact',
+  storage,
+  whitelist: ['contacts'],
+};
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({

@@ -1,12 +1,15 @@
 //Styles
 import css from './ContactList.module.css';
 //Utils
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/actions';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
 
-const ContactList = ({ filteredContacts, deleteContact }) => {
-  const hangleContactDelete = id => () => deleteContact(id);
+const ContactList = () => {
+  const dispatch = useDispatch();
+  const filteredContacts = useSelector(getFiltredContacts);
+
+  const hangleContactDelete = id => () => dispatch(deleteContact(id));
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
@@ -27,16 +30,4 @@ const ContactList = ({ filteredContacts, deleteContact }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    filteredContacts: getFiltredContacts(state),
-  };
-};
-
-const mapDispathToProps = dispatch => {
-  return {
-    deleteContact: id => dispatch(deleteContact(id)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispathToProps)(ContactList);
+export default ContactList;

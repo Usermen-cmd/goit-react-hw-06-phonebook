@@ -1,12 +1,15 @@
 //Styles
 import css from './FindForm.module.css';
 //Utils
-import { connect } from 'react-redux';
 import { changeFilter } from 'redux/actions';
+import { useSelector, useDispatch } from 'react-redux';
 
-const FindForm = ({ value, onChangeFilter }) => {
+const FindForm = () => {
+  const value = useSelector(s => s.filter);
+  const dispatch = useDispatch();
+
   function onChange(event) {
-    onChangeFilter(event.target.value);
+    dispatch(changeFilter(event.target.value));
   }
   return (
     <>
@@ -21,16 +24,4 @@ const FindForm = ({ value, onChangeFilter }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    value: state.filter,
-  };
-};
-
-const mapDispathToProps = dispatch => {
-  return {
-    onChangeFilter: value => dispatch(changeFilter(value)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispathToProps)(FindForm);
+export default FindForm;

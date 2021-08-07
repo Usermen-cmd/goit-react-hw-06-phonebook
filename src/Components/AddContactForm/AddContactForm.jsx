@@ -4,28 +4,32 @@ import css from './AddContactForm.module.css';
 import { Formik, Form, Field } from 'formik';
 //Utils
 import { addContact } from 'redux/actions';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import { nanoid } from 'nanoid';
 import { debounce } from 'throttle-debounce';
-import { isUniqName } from 'utils/isUniqName';
+import { hasName } from 'utils/hasName';
 import { schema } from 'utils/validtionSchema';
 
-const AddContactForm = ({ addContact }) => {
+const AddContactForm = () => {
+  const dispatch = useDispatch();
+
   const onError = debounce(300, error => {
     toast.error(error);
   });
 
   function onSubmit(event, actions) {
-    if (isUniqName(event.name)) {
-      toast.error('Такой контак уже есть');
-      return;
+    if (hasName(event.name)) {
+      toast.error('Такой контакт уже есть');
+    } else {
+      dispatch(
+        addContact({
+          id: nanoid(),
+          ...event,
+        }),
+      );
+      toast.success('Добавлено');
     }
-    addContact({
-      id: nanoid(),
-      ...event,
-    });
-    toast.success('Добавлено');
     actions.resetForm();
     return;
   }
@@ -75,10 +79,4 @@ const AddContactForm = ({ addContact }) => {
   );
 };
 
-const mapDispathToProps = dispatch => {
-  return {
-    addContact: contact => dispatch(addContact(contact)),
-  };
-};
-
-export default connect(null, mapDispathToProps)(AddContactForm);
+export default AddContactForm;
