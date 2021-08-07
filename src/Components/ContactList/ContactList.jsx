@@ -4,6 +4,7 @@ import css from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/actions';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
+import { GoTrashcan } from 'react-icons/go';
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const ContactList = () => {
                 onClick={hangleContactDelete(el.id)}
               >
                 delete
+                <GoTrashcan size="16" />
               </button>
             </li>
           );
