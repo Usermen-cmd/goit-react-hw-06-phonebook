@@ -48,6 +48,7 @@ const persistConfig = {
   storage,
   whitelist: ['contacts'],
 };
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({

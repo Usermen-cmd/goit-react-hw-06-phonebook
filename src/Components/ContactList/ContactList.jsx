@@ -19,7 +19,11 @@ const ContactList = () => {
             <li className={css.listItem} key={el.id}>
               <span>{el.name}</span>
               <span>{el.tel}</span>
-              <button type="button" onClick={hangleContactDelete(el.id)}>
+              <button
+                className={css.button}
+                type="button"
+                onClick={hangleContactDelete(el.id)}
+              >
                 delete
               </button>
             </li>

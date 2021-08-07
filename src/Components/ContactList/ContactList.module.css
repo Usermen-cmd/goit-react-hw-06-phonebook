@@ -1,9 +1,17 @@
 .header {
-  text-align: center;
-}
-.list {
+  composes: header from 'composesStyles/composes.css';
 }
 .listItem {
   display: grid;
   grid-template-columns: 3fr 3fr 1fr;
+  margin-bottom: 8px;
+  color: var(--secondary);
+}
+.button {
+  composes: button from 'composesStyles/composes.css';
+}
+.button:hover {
+  background-color: var(--hoverBlue);
+  box-shadow: var(--shadowBtn);
+  cursor: pointer;
 }
