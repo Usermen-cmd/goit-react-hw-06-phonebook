@@ -1,8 +1,20 @@
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { persistStore, persistReducer } from 'redux-persist';
+import {
+  configureStore,
+  createReducer,
+  combineReducers,
+} from '@reduxjs/toolkit';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import { addContact, deleteContact, changeFilter } from 'redux/actions';
 import storage from 'redux-persist/lib/storage';
-import { ADD_CONTACT, DELETE_CONTACT, CHANGE_FILTEER } from './action-types';
 
 const initState = {
   contacts: [
@@ -14,38 +26,42 @@ const initState = {
   filter: '',
 };
 
+const contactsReduser = createReducer(initState.contacts, {
+  [addContact]: (state, action) => {
+    state.push(action.payload);
+  },
+  [deleteContact]: (state, action) =>
+    state.filter(el => el.id !== action.payload),
+});
+
+const filterReducer = createReducer(initState.filter, {
+  [changeFilter]: (_, action) => action.payload,
+});
+
 const persistConfig = {
   key: 'contacts',
   storage,
   whiteList: ['contacts'],
 };
 
-const reduser = (state = initState, action) => {
-  switch (action.type) {
-    case ADD_CONTACT:
-      return {
-        ...state,
-        contacts: [...state.contacts, action.payload],
-      };
-    case DELETE_CONTACT:
-      return {
-        ...state,
-        contacts: state.contacts.filter(el => {
-          return el.id !== action.payload;
-        }),
-      };
-    case CHANGE_FILTEER:
-      return {
-        ...state,
-        filter: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+const rootReducer = combineReducers({
+  contacts: contactsReduser,
+  filter: filterReducer,
+});
 
-const persistedReducer = persistReducer(persistConfig, reduser);
-const store = createStore(persistedReducer, composeWithDevTools());
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+  devTools: process.env.NODE_ENV === 'development',
+});
+
 const persistor = persistStore(store);
 
 export { store, persistor };

@@ -6,9 +6,7 @@ import { deleteContact } from 'redux/actions';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
 
 const ContactList = ({ filteredContacts, deleteContact }) => {
-  const hangleContactDelete = id => () => {
-    deleteContact(id);
-  };
+  const hangleContactDelete = id => () => deleteContact(id);
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
