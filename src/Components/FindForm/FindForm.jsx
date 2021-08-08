@@ -19,6 +19,7 @@ const FindForm = () => {
         type="text"
         onChange={onChange}
         value={value}
+        placeholder="Enter to find"
       />
     </>
   );
